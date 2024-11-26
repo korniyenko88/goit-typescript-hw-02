@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import React from 'react';
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({ onSearch }) => {
-  const [inputValue, setInputValue] = useState('');
-  const hendleSubmit = event => {
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const hendleSubmit = (event: ) => {
     event.preventDefault();
     onSearch(inputValue.trim());
     setInputValue('');

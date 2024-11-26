@@ -9,20 +9,35 @@ import ImageModal from './components/ImageModal/ImageModal';
 import Loader from './components/Loader/Loader';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 
+
+export interface Image {
+  urls: {
+    small: string;
+    regular: string;
+  };
+  user: {
+    name: string;
+  };
+  alt_description: string;
+  description: string;
+  likes: number;
+};
+
+
 function App() {
-  const YOUR_ACCESS_KEY = 'myHNeFHoPkXbeMBmHoSmpyKTa-dnwJKGx5ag4R9Kc-s';
-  const [images, setImages] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [imageModal, setImageModal] = useState(null);
-  const [perPage, setPerPage] = useState(8);
-  const [error, setError] = useState(null);
+  const YOUR_ACCESS_KEY: string = 'myHNeFHoPkXbeMBmHoSmpyKTa-dnwJKGx5ag4R9Kc-s';
+  const [images, setImages] = useState<[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [imageModal, setImageModal] = useState<null>(null);
+  const [perPage, setPerPage] = useState<number>(8);
+  const [error, setError] = useState<null>(null);
 
   const lastImageRef = useRef(null);
 
   useEffect(() => {
-    const updatePerPage = () => {
+    const updatePerPage = (): void => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
 
@@ -51,7 +66,7 @@ function App() {
         setError(null);
         const { data } = await axios.get(`
         https://api.unsplash.com/search/photos?client_id=${YOUR_ACCESS_KEY}&query=${searchTerm}&orientation=squarish&page=${page}&per_page=${perPage}`);
-
+        
         if (data.results.length === 0) {
           throw new Error('No images found.');
         }
@@ -99,13 +114,13 @@ function App() {
     }
   }, [images.length]);
 
-  const openModal = image => {
+  const openModal = (image: Image): void => {
     if (!imageModal || imageModal.id !== image.id) {
       setImageModal(image);
     }
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setImageModal(null);
   };
 
