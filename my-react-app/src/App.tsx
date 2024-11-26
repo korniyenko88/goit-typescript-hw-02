@@ -55,7 +55,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchImages = async (): Promise<void> => {
       if (!searchTerm) {
         return;
       }
@@ -63,11 +63,11 @@ function App() {
       try {
         setLoading(true);
         setError(null);
-         const { data } = await axios.get<{
-           results: Image[];
-           total: number;
-           total_pages: number;
-         }>(`
+        const { data } = await axios.get<{
+          results: Image[];
+          total: number;
+          total_pages: number;
+        }>(`
         https://api.unsplash.com/search/photos?client_id=${YOUR_ACCESS_KEY}&query=${searchTerm}&orientation=squarish&page=${page}&per_page=${perPage}`);
 
         if (data.results.length === 0) {
@@ -106,7 +106,7 @@ function App() {
     setPage(1);
     setError(null);
   };
-  const handleLoadMore = () => {
+  const handleLoadMore = ():void => {
     setPage(prevPage => prevPage + 1);
   };
 
@@ -114,7 +114,7 @@ useEffect(() => {
   if (!lastImageRef.current) return;
 
   const timeoutId = setTimeout(() => {
-    lastImageRef.current.scrollIntoView({
+    lastImageRef.current!.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
