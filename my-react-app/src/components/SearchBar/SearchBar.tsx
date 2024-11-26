@@ -9,11 +9,14 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const hendleSubmit = (event: ) => {
+
+
+  const hendleSubmit: React.FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
     onSearch(inputValue.trim());
     setInputValue('');
   };
+
   return (
     <div className={styles.searchWraper}>
       <header>
